@@ -1,0 +1,86 @@
+{
+    "sourceFile": "main.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 17,
+            "patches": [
+                {
+                    "date": 1778981296959,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1778981364642,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n import pygame\n \n \n def main():\n-    print(\"Hello from asteroids!\")\n+    print(f'Starting Asteroids with pygame version: {pygame.version.ver}')\n \n \n-if __name__ == \"__main__\":\n+if __name__ == '__main__':\n     main()\n"
+                },
+                {
+                    "date": 1778998997190,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n import pygame\n \n \n def main():\n-    print(f'Starting Asteroids with pygame version: {pygame.version.ver}')\n+    print(f\"Starting Asteroids with pygame version: {pygame.version.ver}\")\n \n \n-if __name__ == '__main__':\n+if __name__ == \"__main__\":\n     main()\n"
+                },
+                {
+                    "date": 1778999398038,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,9 @@\n import pygame\n \n+from constants import SCREEN_HEIGHT, SCREEN_WIDTH\n \n+\n def main():\n     print(f\"Starting Asteroids with pygame version: {pygame.version.ver}\")\n \n \n"
+                },
+                {
+                    "date": 1778999423137,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,7 @@\n import pygame\n \n-from constants import SCREEN_HEIGHT, SCREEN_WIDTH\n+from constants import SCREEN_WIDTH, SCREEN_HEIGHT\n \n \n def main():\n     print(f\"Starting Asteroids with pygame version: {pygame.version.ver}\")\n"
+                },
+                {
+                    "date": 1778999461944,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,7 @@\n import pygame\n \n-from constants import SCREEN_WIDTH, SCREEN_HEIGHT\n+from constants import SCREEN_HEIGHT, SCREEN_WIDTH\n \n \n def main():\n     print(f\"Starting Asteroids with pygame version: {pygame.version.ver}\")\n"
+                },
+                {
+                    "date": 1778999506340,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,8 +4,9 @@\n \n \n def main():\n     print(f\"Starting Asteroids with pygame version: {pygame.version.ver}\")\n+    print()\n \n \n if __name__ == \"__main__\":\n     main()\n"
+                },
+                {
+                    "date": 1778999558540,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,9 +4,10 @@\n \n \n def main():\n     print(f\"Starting Asteroids with pygame version: {pygame.version.ver}\")\n-    print()\n+    print(f\"Screen width: {SCREEN_WIDTH}\")\n+    print(f\"Screen height: {SCREEN_HEIGHT}\")\n \n \n if __name__ == \"__main__\":\n     main()\n"
+                },
+                {
+                    "date": 1779042516685,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,8 @@\n import pygame\n \n from constants import SCREEN_HEIGHT, SCREEN_WIDTH\n+from logger import log_state\n \n \n def main():\n     print(f\"Starting Asteroids with pygame version: {pygame.version.ver}\")\n"
+                },
+                {
+                    "date": 1779042614241,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,8 +7,9 @@\n def main():\n     print(f\"Starting Asteroids with pygame version: {pygame.version.ver}\")\n     print(f\"Screen width: {SCREEN_WIDTH}\")\n     print(f\"Screen height: {SCREEN_HEIGHT}\")\n+    pygame.init(())\n \n \n if __name__ == \"__main__\":\n     main()\n"
+                },
+                {
+                    "date": 1779042619892,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,9 +7,9 @@\n def main():\n     print(f\"Starting Asteroids with pygame version: {pygame.version.ver}\")\n     print(f\"Screen width: {SCREEN_WIDTH}\")\n     print(f\"Screen height: {SCREEN_HEIGHT}\")\n-    pygame.init(())\n+    pygame.init()\n \n \n if __name__ == \"__main__\":\n     main()\n"
+                },
+                {
+                    "date": 1779042656838,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,8 +8,9 @@\n     print(f\"Starting Asteroids with pygame version: {pygame.version.ver}\")\n     print(f\"Screen width: {SCREEN_WIDTH}\")\n     print(f\"Screen height: {SCREEN_HEIGHT}\")\n     pygame.init()\n+    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\n \n \n if __name__ == \"__main__\":\n     main()\n"
+                },
+                {
+                    "date": 1779042699537,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,8 +9,10 @@\n     print(f\"Screen width: {SCREEN_WIDTH}\")\n     print(f\"Screen height: {SCREEN_HEIGHT}\")\n     pygame.init()\n     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\n+    while True:\n \n \n+\n if __name__ == \"__main__\":\n     main()\n"
+                },
+                {
+                    "date": 1779042731369,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,9 +10,9 @@\n     print(f\"Screen height: {SCREEN_HEIGHT}\")\n     pygame.init()\n     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\n     while True:\n+        log_state()\n \n \n-\n if __name__ == \"__main__\":\n     main()\n"
+                },
+                {
+                    "date": 1779042777295,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,8 +11,10 @@\n     pygame.init()\n     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\n     while True:\n         log_state()\n+        for event in pygame.event.get():\n+            pass\n \n \n if __name__ == \"__main__\":\n     main()\n"
+                },
+                {
+                    "date": 1779042838934,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,8 +13,9 @@\n     while True:\n         log_state()\n         for event in pygame.event.get():\n             pass\n+        screen.fill(\"black\")\n \n \n if __name__ == \"__main__\":\n     main()\n"
+                },
+                {
+                    "date": 1779042875542,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,6 @@\n import pygame\n+from pygame import display\n \n from constants import SCREEN_HEIGHT, SCREEN_WIDTH\n from logger import log_state\n \n@@ -14,8 +15,9 @@\n         log_state()\n         for event in pygame.event.get():\n             pass\n         screen.fill(\"black\")\n+        display.flip()\n \n \n if __name__ == \"__main__\":\n     main()\n"
+                },
+                {
+                    "date": 1779042971630,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,9 +13,10 @@\n     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\n     while True:\n         log_state()\n         for event in pygame.event.get():\n-            pass\n+            if event.type == pygame.QUIT:\n+                return\n         screen.fill(\"black\")\n         display.flip()\n \n \n"
+                }
+            ],
+            "date": 1778981296958,
+            "name": "Commit-0",
+            "content": "import pygame\n\n\ndef main():\n    print(\"Hello from asteroids!\")\n\n\nif __name__ == \"__main__\":\n    main()\n"
+        }
+    ]
+}
