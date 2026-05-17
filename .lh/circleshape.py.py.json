@@ -1,0 +1,18 @@
+{
+    "sourceFile": "circleshape.py.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1779046123871,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1779046123871,
+            "name": "Commit-0",
+            "content": "import pygame\n\n\n# Base class for game objects\nclass CircleShape(pygame.sprite.Sprite):\n    def __init__(self, x, y, radius):\n        # we will be using this later\n        if hasattr(self, \"containers\"):\n            super().__init__(self.containers)\n        else:\n            super().__init__()\n\n        self.position = pygame.Vector2(x, y)\n        self.velocity = pygame.Vector2(0, 0)\n        self.radius = radius\n\n    def draw(self, screen):\n        # must override\n        pass\n\n    def update(self, dt):\n        # must override\n        pass\n"
+        }
+    ]
+}

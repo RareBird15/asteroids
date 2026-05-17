@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 17,
+            "activePatchIndex": 30,
             "patches": [
                 {
                     "date": 1778981296959,
@@ -76,6 +76,58 @@
                 {
                     "date": 1779042971630,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,9 +13,10 @@\n     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\n     while True:\n         log_state()\n         for event in pygame.event.get():\n-            pass\n+            if event.type == pygame.QUIT:\n+                return\n         screen.fill(\"black\")\n         display.flip()\n \n \n"
+                },
+                {
+                    "date": 1779045661090,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,8 +9,9 @@\n     print(f\"Starting Asteroids with pygame version: {pygame.version.ver}\")\n     print(f\"Screen width: {SCREEN_WIDTH}\")\n     print(f\"Screen height: {SCREEN_HEIGHT}\")\n     pygame.init()\n+    clock = pygame.time.Clock()\n     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\n     while True:\n         log_state()\n         for event in pygame.event.get():\n"
+                },
+                {
+                    "date": 1779045690471,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,8 +10,9 @@\n     print(f\"Screen width: {SCREEN_WIDTH}\")\n     print(f\"Screen height: {SCREEN_HEIGHT}\")\n     pygame.init()\n     clock = pygame.time.Clock()\n+    dt = 0\n     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\n     while True:\n         log_state()\n         for event in pygame.event.get():\n"
+                },
+                {
+                    "date": 1779045747062,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,8 +19,9 @@\n             if event.type == pygame.QUIT:\n                 return\n         screen.fill(\"black\")\n         display.flip()\n+        clock.tick(60)\n \n \n if __name__ == \"__main__\":\n     main()\n"
+                },
+                {
+                    "date": 1779045809874,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,8 +20,9 @@\n                 return\n         screen.fill(\"black\")\n         display.flip()\n         clock.tick(60)\n+        dt = clock.\n \n \n if __name__ == \"__main__\":\n     main()\n"
+                },
+                {
+                    "date": 1779045851469,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,10 +19,9 @@\n             if event.type == pygame.QUIT:\n                 return\n         screen.fill(\"black\")\n         display.flip()\n-        clock.tick(60)\n-        dt = clock.\n+        dt = clock.tick(60) / 1000\n \n \n if __name__ == \"__main__\":\n     main()\n"
+                },
+                {
+                    "date": 1779045877508,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,8 +20,9 @@\n                 return\n         screen.fill(\"black\")\n         display.flip()\n         dt = clock.tick(60) / 1000\n+        print(dt)\n \n \n if __name__ == \"__main__\":\n     main()\n"
+                },
+                {
+                    "date": 1779045934773,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,9 +20,8 @@\n                 return\n         screen.fill(\"black\")\n         display.flip()\n         dt = clock.tick(60) / 1000\n-        print(dt)\n \n \n if __name__ == \"__main__\":\n     main()\n"
+                },
+                {
+                    "date": 1779049790910,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,8 +2,9 @@\n from pygame import display\n \n from constants import SCREEN_HEIGHT, SCREEN_WIDTH\n from logger import log_state\n+from player import Player\n \n \n def main():\n     print(f\"Starting Asteroids with pygame version: {pygame.version.ver}\")\n"
+                },
+                {
+                    "date": 1779049908976,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,8 +13,9 @@\n     pygame.init()\n     clock = pygame.time.Clock()\n     dt = 0\n     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\n+    player1 = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)\n     while True:\n         log_state()\n         for event in pygame.event.get():\n             if event.type == pygame.QUIT:\n"
+                },
+                {
+                    "date": 1779049927362,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -22,8 +22,10 @@\n                 return\n         screen.fill(\"black\")\n         display.flip()\n         dt = clock.tick(60) / 1000\n+        player1.draw(screen)\n+        player1.update(dt)\n \n \n if __name__ == \"__main__\":\n     main()\n"
+                },
+                {
+                    "date": 1779049970577,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,12 +20,11 @@\n         for event in pygame.event.get():\n             if event.type == pygame.QUIT:\n                 return\n         screen.fill(\"black\")\n+        player1.draw()\n         display.flip()\n         dt = clock.tick(60) / 1000\n-        player1.draw(screen)\n-        player1.update(dt)\n \n \n if __name__ == \"__main__\":\n     main()\n"
+                },
+                {
+                    "date": 1779049991437,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,9 +20,9 @@\n         for event in pygame.event.get():\n             if event.type == pygame.QUIT:\n                 return\n         screen.fill(\"black\")\n-        player1.draw()\n+        player1.draw(screen)\n         display.flip()\n         dt = clock.tick(60) / 1000\n \n \n"
+                },
+                {
+                    "date": 1779051039908,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,8 +19,9 @@\n         log_state()\n         for event in pygame.event.get():\n             if event.type == pygame.QUIT:\n                 return\n+        player1.update(dt)\n         screen.fill(\"black\")\n         player1.draw(screen)\n         display.flip()\n         dt = clock.tick(60) / 1000\n"
                 }
             ],
             "date": 1778981296958,
