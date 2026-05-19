@@ -1,0 +1,18 @@
+{
+    "sourceFile": "asteroidfield.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1779054801813,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1779054801813,
+            "name": "Commit-0",
+            "content": "import pygame\nimport random\nfrom asteroid import Asteroid\nfrom constants import *\n\n\nclass AsteroidField(pygame.sprite.Sprite):\n    edges = [\n        [\n            pygame.Vector2(1, 0),\n            lambda y: pygame.Vector2(-ASTEROID_MAX_RADIUS, y * SCREEN_HEIGHT),\n        ],\n        [\n            pygame.Vector2(-1, 0),\n            lambda y: pygame.Vector2(\n                SCREEN_WIDTH + ASTEROID_MAX_RADIUS, y * SCREEN_HEIGHT\n            ),\n        ],\n        [\n            pygame.Vector2(0, 1),\n            lambda x: pygame.Vector2(x * SCREEN_WIDTH, -ASTEROID_MAX_RADIUS),\n        ],\n        [\n            pygame.Vector2(0, -1),\n            lambda x: pygame.Vector2(\n                x * SCREEN_WIDTH, SCREEN_HEIGHT + ASTEROID_MAX_RADIUS\n            ),\n        ],\n    ]\n\n    def __init__(self):\n        pygame.sprite.Sprite.__init__(self, self.containers)\n        self.spawn_timer = 0.0\n\n    def spawn(self, radius, position, velocity):\n        asteroid = Asteroid(position.x, position.y, radius)\n        asteroid.velocity = velocity\n\n    def update(self, dt):\n        self.spawn_timer += dt\n        if self.spawn_timer > ASTEROID_SPAWN_RATE_SECONDS:\n            self.spawn_timer = 0\n\n            # spawn a new asteroid at a random edge\n            edge = random.choice(self.edges)\n            speed = random.randint(40, 100)\n            velocity = edge[0] * speed\n            velocity = velocity.rotate(random.randint(-30, 30))\n            position = edge[1](random.uniform(0, 1))\n            kind = random.randint(1, ASTEROID_KINDS)\n            self.spawn(ASTEROID_MIN_RADIUS * kind, position, velocity)\n"
+        }
+    ]
+}

@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 30,
+            "activePatchIndex": 51,
             "patches": [
                 {
                     "date": 1778981296959,
@@ -128,6 +128,90 @@
                 {
                     "date": 1779051039908,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,8 +19,9 @@\n         log_state()\n         for event in pygame.event.get():\n             if event.type == pygame.QUIT:\n                 return\n+        player1.update(dt)\n         screen.fill(\"black\")\n         player1.draw(screen)\n         display.flip()\n         dt = clock.tick(60) / 1000\n"
+                },
+                {
+                    "date": 1779053228639,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,17 +15,17 @@\n     dt = 0\n     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\n     player1 = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)\n     while True:\n+        dt = clock.tick(60) / 1000\n         log_state()\n         for event in pygame.event.get():\n             if event.type == pygame.QUIT:\n                 return\n         player1.update(dt)\n         screen.fill(\"black\")\n         player1.draw(screen)\n         display.flip()\n-        dt = clock.tick(60) / 1000\n \n \n if __name__ == \"__main__\":\n     main()\n"
+                },
+                {
+                    "date": 1779053265711,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,13 +16,13 @@\n     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\n     player1 = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)\n     while True:\n         dt = clock.tick(60) / 1000\n-        log_state()\n         for event in pygame.event.get():\n             if event.type == pygame.QUIT:\n                 return\n         player1.update(dt)\n+        log_state()\n         screen.fill(\"black\")\n         player1.draw(screen)\n         display.flip()\n \n"
+                },
+                {
+                    "date": 1779054014465,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,8 +14,9 @@\n     clock = pygame.time.Clock()\n     dt = 0\n     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\n     player1 = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)\n+    updatable = pygame.sprite.Group()\n     while True:\n         dt = clock.tick(60) / 1000\n         for event in pygame.event.get():\n             if event.type == pygame.QUIT:\n"
+                },
+                {
+                    "date": 1779054041539,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,8 +15,9 @@\n     dt = 0\n     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\n     player1 = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)\n     updatable = pygame.sprite.Group()\n+    drawable = pygame.sprite.Group()\n     while True:\n         dt = clock.tick(60) / 1000\n         for event in pygame.event.get():\n             if event.type == pygame.QUIT:\n"
+                },
+                {
+                    "date": 1779054065993,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,11 +13,12 @@\n     pygame.init()\n     clock = pygame.time.Clock()\n     dt = 0\n     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\n-    player1 = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)\n     updatable = pygame.sprite.Group()\n     drawable = pygame.sprite.Group()\n+    Player.containers = (updatable, drawable)\n+    player1 = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)\n     while True:\n         dt = clock.tick(60) / 1000\n         for event in pygame.event.get():\n             if event.type == pygame.QUIT:\n"
+                },
+                {
+                    "date": 1779054106213,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -22,9 +22,9 @@\n         dt = clock.tick(60) / 1000\n         for event in pygame.event.get():\n             if event.type == pygame.QUIT:\n                 return\n-        player1.update(dt)\n+        updatable.update(dt)\n         log_state()\n         screen.fill(\"black\")\n         player1.draw(screen)\n         display.flip()\n"
+                },
+                {
+                    "date": 1779054134837,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -25,9 +25,10 @@\n                 return\n         updatable.update(dt)\n         log_state()\n         screen.fill(\"black\")\n-        player1.draw(screen)\n+        for item in drawable:\n+            item.draw(screen)\n         display.flip()\n \n \n if __name__ == \"__main__\":\n"
+                },
+                {
+                    "date": 1779054698492,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,8 +15,9 @@\n     dt = 0\n     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\n     updatable = pygame.sprite.Group()\n     drawable = pygame.sprite.Group()\n+    asteroids = pygame.sprite.Group()\n     Player.containers = (updatable, drawable)\n     player1 = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)\n     while True:\n         dt = clock.tick(60) / 1000\n"
+                },
+                {
+                    "date": 1779054724032,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,8 +17,9 @@\n     updatable = pygame.sprite.Group()\n     drawable = pygame.sprite.Group()\n     asteroids = pygame.sprite.Group()\n     Player.containers = (updatable, drawable)\n+    Asteroid.containers = (asteroids, updatable, drawable)\n     player1 = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)\n     while True:\n         dt = clock.tick(60) / 1000\n         for event in pygame.event.get():\n"
+                },
+                {
+                    "date": 1779054773726,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,8 @@\n import pygame\n from pygame import display\n \n+from asteroid import Asteroid\n from constants import SCREEN_HEIGHT, SCREEN_WIDTH\n from logger import log_state\n from player import Player\n \n"
+                },
+                {
+                    "date": 1779054858437,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,9 @@\n import pygame\n from pygame import display\n \n from asteroid import Asteroid\n+from asteroidfield import AsteroidField\n from constants import SCREEN_HEIGHT, SCREEN_WIDTH\n from logger import log_state\n from player import Player\n \n"
+                },
+                {
+                    "date": 1779054916485,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,8 +20,9 @@\n     drawable = pygame.sprite.Group()\n     asteroids = pygame.sprite.Group()\n     Player.containers = (updatable, drawable)\n     Asteroid.containers = (asteroids, updatable, drawable)\n+    AsteroidField.containers = (updatable,)\n     player1 = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)\n     while True:\n         dt = clock.tick(60) / 1000\n         for event in pygame.event.get():\n"
+                },
+                {
+                    "date": 1779054988050,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -22,8 +22,9 @@\n     Player.containers = (updatable, drawable)\n     Asteroid.containers = (asteroids, updatable, drawable)\n     AsteroidField.containers = (updatable,)\n     player1 = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)\n+    asteroid_field = AsteroidField()\n     while True:\n         dt = clock.tick(60) / 1000\n         for event in pygame.event.get():\n             if event.type == pygame.QUIT:\n"
+                },
+                {
+                    "date": 1779055309756,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,9 +3,9 @@\n \n from asteroid import Asteroid\n from asteroidfield import AsteroidField\n from constants import SCREEN_HEIGHT, SCREEN_WIDTH\n-from logger import log_state\n+from logger import log_event, log_state\n from player import Player\n \n \n def main():\n"
+                },
+                {
+                    "date": 1779055397131,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -29,8 +29,11 @@\n         for event in pygame.event.get():\n             if event.type == pygame.QUIT:\n                 return\n         updatable.update(dt)\n+        for asteroid in asteroids:\n+            if player1.collides_with(asteroid):\n+                log_event(\"Player collided with asteroid\")\n         log_state()\n         screen.fill(\"black\")\n         for item in drawable:\n             item.draw(screen)\n"
+                },
+                {
+                    "date": 1779055422693,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -31,9 +31,9 @@\n                 return\n         updatable.update(dt)\n         for asteroid in asteroids:\n             if player1.collides_with(asteroid):\n-                log_event(\"Player collided with asteroid\")\n+                log_event(\"player_hit\")\n         log_state()\n         screen.fill(\"black\")\n         for item in drawable:\n             item.draw(screen)\n"
+                },
+                {
+                    "date": 1779055452099,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -32,8 +32,9 @@\n         updatable.update(dt)\n         for asteroid in asteroids:\n             if player1.collides_with(asteroid):\n                 log_event(\"player_hit\")\n+                print(\"Game over!\")\n         log_state()\n         screen.fill(\"black\")\n         for item in drawable:\n             item.draw(screen)\n"
+                },
+                {
+                    "date": 1779055479781,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,4 +1,6 @@\n+import sys\n+\n import pygame\n from pygame import display\n \n from asteroid import Asteroid\n"
+                },
+                {
+                    "date": 1779055512867,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -35,8 +35,9 @@\n         for asteroid in asteroids:\n             if player1.collides_with(asteroid):\n                 log_event(\"player_hit\")\n                 print(\"Game over!\")\n+                sys.exit()\n         log_state()\n         screen.fill(\"black\")\n         for item in drawable:\n             item.draw(screen)\n"
+                },
+                {
+                    "date": 1779056125377,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,8 +20,9 @@\n     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\n     updatable = pygame.sprite.Group()\n     drawable = pygame.sprite.Group()\n     asteroids = pygame.sprite.Group()\n+    shots = pygame.sprite.Group()\n     Player.containers = (updatable, drawable)\n     Asteroid.containers = (asteroids, updatable, drawable)\n     AsteroidField.containers = (updatable,)\n     player1 = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)\n"
+                },
+                {
+                    "date": 1779056186190,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,8 +7,9 @@\n from asteroidfield import AsteroidField\n from constants import SCREEN_HEIGHT, SCREEN_WIDTH\n from logger import log_event, log_state\n from player import Player\n+from shot import Shot\n \n \n def main():\n     print(f\"Starting Asteroids with pygame version: {pygame.version.ver}\")\n@@ -24,8 +25,9 @@\n     shots = pygame.sprite.Group()\n     Player.containers = (updatable, drawable)\n     Asteroid.containers = (asteroids, updatable, drawable)\n     AsteroidField.containers = (updatable,)\n+    Shot.containers = (shots, updatable, drawable)\n     player1 = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)\n     asteroid_field = AsteroidField()\n     while True:\n         dt = clock.tick(60) / 1000\n"
                 }
             ],
             "date": 1778981296958,
