@@ -1,3 +1,5 @@
+"""Minimal JSONL logger for game state snapshots and gameplay events."""
+
 import inspect
 import json
 import math
@@ -16,13 +18,14 @@ _start_time = datetime.now()
 
 
 def log_state():
+    """Write a sampled snapshot of local game state to `game_state.jsonl`."""
     global _frame_count, _state_log_initialized
 
-    # Stop logging after `_MAX_SECONDS` seconds
+    # Stop logging after `_MAX_SECONDS` seconds.
     if _frame_count > _FPS * _MAX_SECONDS:
         return
 
-    # Take a snapshot approx. once per second
+    # Take a snapshot approximately once per second.
     _frame_count += 1
     if _frame_count % _FPS != 0:
         return
@@ -107,7 +110,7 @@ def log_state():
         **game_state,
     }
 
-    # New log file on each run
+    # Truncate on first write of a run, append afterward.
     mode = "w" if not _state_log_initialized else "a"
     with open("game_state.jsonl", mode) as f:
         f.write(json.dumps(entry) + "\n")
@@ -116,6 +119,7 @@ def log_state():
 
 
 def log_event(event_type, **details):
+    """Write a one-off gameplay event record to `game_events.jsonl`."""
     global _event_log_initialized
 
     now = datetime.now()

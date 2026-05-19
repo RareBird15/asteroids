@@ -1,3 +1,5 @@
+"""Timed asteroid spawner that creates asteroids from screen edges."""
+
 import pygame
 import random
 from asteroid import Asteroid
@@ -5,6 +7,8 @@ from constants import *
 
 
 class AsteroidField(pygame.sprite.Sprite):
+    """Manages periodic asteroid spawning around the play area."""
+
     edges = [
         [
             pygame.Vector2(1, 0),
@@ -29,19 +33,22 @@ class AsteroidField(pygame.sprite.Sprite):
     ]
 
     def __init__(self):
+        """Initialize the spawner state and cooldown timer."""
         pygame.sprite.Sprite.__init__(self, self.containers)
         self.spawn_timer = 0.0
 
     def spawn(self, radius, position, velocity):
+        """Create one asteroid with the provided size, position, and velocity."""
         asteroid = Asteroid(position.x, position.y, radius)
         asteroid.velocity = velocity
 
     def update(self, dt):
+        """Advance the spawn timer and emit a new asteroid when ready."""
         self.spawn_timer += dt
         if self.spawn_timer > ASTEROID_SPAWN_RATE_SECONDS:
             self.spawn_timer = 0
 
-            # spawn a new asteroid at a random edge
+            # Spawn from a random edge and nudge angle/speed for variation.
             edge = random.choice(self.edges)
             speed = random.randint(40, 100)
             velocity = edge[0] * speed

@@ -1,3 +1,5 @@
+"""Entry point for the Asteroids game loop."""
+
 import sys
 
 import pygame
@@ -12,6 +14,7 @@ from shot import Shot
 
 
 def main():
+    """Initialize pygame, then run the game loop until quit or game over."""
     print(f"Starting Asteroids with pygame version: {pygame.version.ver}")
     print(f"Screen width: {SCREEN_WIDTH}")
     print(f"Screen height: {SCREEN_HEIGHT}")
@@ -23,29 +26,37 @@ def main():
     drawable = pygame.sprite.Group()
     asteroids = pygame.sprite.Group()
     shots = pygame.sprite.Group()
+
+    # Attach sprite groups used by each class when instances are created.
     Player.containers = (updatable, drawable)
     Asteroid.containers = (asteroids, updatable, drawable)
     AsteroidField.containers = (updatable,)
     Shot.containers = (shots, updatable, drawable)
+
     player1 = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
     asteroid_field = AsteroidField()
+
     while True:
         dt = clock.tick(60) / 1000
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
+
         updatable.update(dt)
+
         for asteroid in asteroids:
             if player1.collides_with(asteroid):
                 log_event("player_hit")
                 print("Game over!")
                 sys.exit()
+
         for asteroid in asteroids:
             for shot in shots:
                 if asteroid.collides_with(shot):
                     log_event("asteroid_shot")
                     asteroid.split()
                     shot.kill()
+
         log_state()
         screen.fill("black")
         for item in drawable:

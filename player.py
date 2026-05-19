@@ -1,3 +1,5 @@
+"""Player ship sprite, movement controls, and shooting behavior."""
+
 import pygame
 
 from circleshape import CircleShape
@@ -13,12 +15,16 @@ from shot import Shot
 
 
 class Player(CircleShape):
+    """Controllable triangular ship that moves, rotates, and fires shots."""
+
     def __init__(self, x, y):
+        """Create a player centered at the provided coordinates."""
         super().__init__(x, y, PLAYER_RADIUS)
         self.rotation = 0
         self.shoot_cooldown = 0
 
     def triangle(self):
+        """Return the three points used to draw the player ship polygon."""
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
         right = pygame.Vector2(0, 1).rotate(self.rotation + 90) * self.radius / 1.5
         a = self.position + forward * self.radius
@@ -27,14 +33,18 @@ class Player(CircleShape):
         return [a, b, c]
 
     def draw(self, screen):
+        """Draw the ship as an outlined triangle."""
         pygame.draw.polygon(screen, "white", self.triangle(), LINE_WIDTH)
 
     def rotate(self, dt):
+        """Rotate the ship based on delta time and turn speed."""
         self.rotation += PLAYER_TURN_SPEED * dt
 
     def update(self, dt):
+        """Handle per-frame input, movement, and firing cooldown."""
         if self.shoot_cooldown > 0:
             self.shoot_cooldown -= dt
+
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_a]:
@@ -49,18 +59,20 @@ class Player(CircleShape):
             self.shoot()
 
     def move(self, dt):
+        """Move forward (or backward for negative `dt`) in facing direction."""
         unit_vector = pygame.Vector2(0, 1)
         rotated_vector = unit_vector.rotate(self.rotation)
         rotated_with_speed_vector = rotated_vector * PLAYER_SPEED * dt
         self.position += rotated_with_speed_vector
 
     def shoot(self):
+        """Spawn a shot if the cooldown has expired."""
         if self.shoot_cooldown > 0:
             return
-        else:
-            self.shoot_cooldown = PLAYER_SHOOT_COOLDOWN_SECONDS
-            player_shot = Shot(
-                self.position.x,
-                self.position.y,
-                pygame.Vector2(0, 1).rotate(self.rotation) * PLAYER_SHOOT_SPEED,
-            )
+
+        self.shoot_cooldown = PLAYER_SHOOT_COOLDOWN_SECONDS
+        Shot(
+            self.position.x,
+            self.position.y,
+            pygame.Vector2(0, 1).rotate(self.rotation) * PLAYER_SHOOT_SPEED,
+        )
