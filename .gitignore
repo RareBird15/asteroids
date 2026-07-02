@@ -12,3 +12,9 @@ wheels/
 # Game State
 game_state.jsonl
 game_events.jsonl
+
+# Windows metadata sidecar files
+*:Zone.Identifier
+
+# Local editor metadata
+.lh/
